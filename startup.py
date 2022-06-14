@@ -9,5 +9,6 @@ os.system('python manage.py flush')
 os.system('python manage.py makemigrations')
 os.system('python manage.py migrate')
 os.system(f'manage.py createsuperuser --noinput')
+os.system(f'manage.py collectstatic')
 os.system('python manage.py runserver')
 
