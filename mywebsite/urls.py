@@ -23,6 +23,8 @@ from django.conf import settings
 
 from productos.models import Producto, Categoria, Mascota
 
+import ulid
+
 
 def index(request):
 
@@ -37,14 +39,17 @@ def index(request):
             dic_productos = dict()
             for producto in productos_categoria:
                 producto_data = dict(
+                    unique_id=ulid.new().str,
                     nombre = producto.nombre,
                     categoria = producto.categoria.nombre,
                     precio = producto.precio,
                     descripcion = producto.descripcion,
+                    stock = producto.stock,
                     imagen = producto.imagen.url
                 )
                 dic_productos[producto.nombre] = producto_data
-            dic_categorias[categoria.nombre] = dict(descripcion = categoria.descripcion, productos=dic_productos)
+            cat_uid = f'{mascota.nombre.replace(" ", "_")}__{categoria.nombre.replace(" ", "_")}'
+            dic_categorias[categoria.nombre] = dict(descripcion = categoria.descripcion, imagen = categoria.imagen.url, productos=dic_productos, unique_id=cat_uid)
         tienda[mascota.nombre] = dict(descripcion = mascota.descripcion, categorias=dic_categorias)
 
     context = dict(tienda = tienda)

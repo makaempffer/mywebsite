@@ -14,7 +14,7 @@ class Categoria(models.Model):
     imagen = models.ImageField(upload_to='static/categorias/', null=True)
 
     def __str__(self) -> str:
-        return f'{self.nombre}'
+        return f'{self.nombre} ({self.mascota.nombre})'
 
 class Producto(models.Model):
 
@@ -22,7 +22,8 @@ class Producto(models.Model):
     categoria = models.ForeignKey(Categoria, related_name='categoria', on_delete=models.CASCADE, null=True)
     descripcion = models.TextField(max_length=512, blank=False)
     precio = models.PositiveIntegerField(blank=False)
+    stock = models.IntegerField(blank=False)
     imagen = models.ImageField(upload_to='static/productos/', null=True)
 
     def __str__(self) -> str:
-        return f'{self.nombre} [{self.mascota.nombre} / {self.categoria.nombre}]'
+        return f'{self.nombre} - {str(self.categoria)}'
