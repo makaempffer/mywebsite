@@ -44,7 +44,7 @@ def index(request):
                     imagen = producto.imagen.url
                 )
                 dic_productos[producto.nombre] = producto_data
-            dic_categorias[categoria.nombre] = dic_productos
+            dic_categorias[categoria.nombre] = dict(descripcion = categoria.descripcion, productos=dic_productos)
         tienda[mascota.nombre] = dict(descripcion = mascota.descripcion, categorias=dic_categorias)
 
     context = dict(tienda = tienda)
