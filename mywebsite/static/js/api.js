@@ -1,4 +1,4 @@
-const url = 'https://fakestoreapi.com/products';
+/*const url = 'https://fakestoreapi.com/products';
 $(document).ready(
     function() 
     {
@@ -24,4 +24,4 @@ function fillProduct(data, id, index)
     document.getElementById(id + '-desc').innerHTML = productInfo['description'];
     document.getElementById(id + '-price').innerHTML += productInfo['price'];
     document.getElementById(id + '-image').src = productInfo['image'];
-}
+}*/
