@@ -18,12 +18,42 @@ from django.urls import path, include
 from django.http import JsonResponse
 from django.shortcuts import render
 
+from django.conf.urls.static import static
+from django.conf import settings
+
+from productos.models import Producto, Categoria, Mascota
+
 
 def index(request):
 
-    return render(request, 'templates/index.html')
+    mascotas_all = Mascota.objects.all()
+    tienda = {}
+
+    for mascota in mascotas_all:
+        categorias_mascota = Categoria.objects.filter(mascota=mascota)
+        dic_categorias = dict()
+        for categoria in categorias_mascota:
+            productos_categoria = Producto.objects.filter(categoria=categoria)
+            dic_productos = dict()
+            for producto in productos_categoria:
+                producto_data = dict(
+                    nombre = producto.nombre,
+                    categoria = producto.categoria.nombre,
+                    precio = producto.precio,
+                    descripcion = producto.descripcion,
+                    imagen = producto.imagen.url
+                )
+                dic_productos[producto.nombre] = producto_data
+            dic_categorias[categoria.nombre] = dic_productos
+        tienda[mascota.nombre] = dict(descripcion = mascota.descripcion, categorias=dic_categorias)
+
+    context = dict(tienda = tienda)
+    print(tienda)
+
+    return render(request, '../templates/index.html', context)
 
 urlpatterns = [
     path('', index),
     path('admin/', admin.site.urls), 
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
