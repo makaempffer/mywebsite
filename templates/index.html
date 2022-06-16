@@ -372,7 +372,8 @@
                                     <br/>
                                     <div class="d-flex justify-content-end align-items-center">
                                         <div class="form-group d-flex justify-content-start">
-                                            <button type="submit" class="btn btn-primary">Enviar</button>
+                                            <button type="submit" class="btn btn-primary" onclick="loginUser">Enviar</button>
+                                            
                                         </div>
                                     </div>
                                 </fieldset>
@@ -394,20 +395,20 @@
                                 <h1 class="section-heading text-uppercase">Mi cuenta</h1>
                             </div>
                             
-                            <form id="member-registration" action="/astroidnew/index.php/pages/register?task=registration.register" method="post" class="form-validate form-horizontal well" enctype="multipart/form-data">
+                            <form id="member-registration" class="form-validate form-horizontal well" enctype="multipart/form-data">
                                 <fieldset>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Correo electrónico *</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" placeholder="ejemplo@gmail.com">
+                                        <input type="email" class="form-control" id="email-id" placeholder="ejemplo@gmail.com">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Contraseña *</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="********">
+                                        <input type="password" class="form-control" id="password-id" placeholder="********">
                                     </div>
                                     <br/>
                                     <div class="d-flex justify-content-end align-items-center">
                                         <div class="form-group d-flex justify-content-start">
-                                            <button type="submit" class="btn btn-primary">Enviar</button>
+                                            <button onclick="loginUser()" class="btn btn-primary">Login</button>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -444,6 +445,21 @@
                   blur:true,
                   overlay:true,
                 });
+        </script>
+        <script>
+            function loginUser() {
+
+                if (document.getElementById('email-id').value != '')
+                var email = document.getElementById('email-id').value;
+                if (document.getElementById('password-id').value != '')
+                var password = document.getElementById('password-id').value;
+                if (email == 'la.ancapi@duocuc.cl' && password == '123123')
+                {
+                    return alert("Usuario Logueado")
+                } else {
+                    return alert("Datos ingresados no son correctos.")
+                }
+            }
         </script>
     </body>
 </html>

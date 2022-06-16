@@ -29,3 +29,12 @@ class Producto(models.Model):
 
     def __str__(self) -> str:
         return f'{self.nombre} - {str(self.categoria)}'
+
+class UserData(models.Model):
+    correo = models.CharField(max_length=64)
+    password = models.CharField(max_length=30)
+    
+
+
+    def __str__(self) -> str:
+        return f'{self.correo} ({self.password})' 
