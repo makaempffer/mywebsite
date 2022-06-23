@@ -11,6 +11,11 @@
         <link rel="icon" type="image/x-icon" href="static/assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script>
+            $.ajaxSetup({
+                data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+            });
+        </script>
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
@@ -36,8 +41,13 @@
                             <li class="nav-item"><a class="nav-link" href="#about">Fundación</a></li>
                             <li class="nav-item"><a class="nav-link" href="#contact">Contacto</a></li>
                             <li class="nav-item"><a class="nav-link" href="#">Seguir mi pedido</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#" id="abrir-popup">Registrarse</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#" id="abrir-popupLogin">Iniciar sesión</a></li>
+                            {% if user.is_authenticated %}
+                                <li class="nav-item"><a class="nav-link" href="#">Hola {{ user.username }}</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#" id="member-logout">Salir</a></li>
+                            {% else %}
+                                <li class="nav-item"><a class="nav-link" href="#" id="abrir-popup">Registrarse</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#" id="abrir-popupLogin">Iniciar sesión</a></li>
+                            {% endif %}
                             <li class="nav-item"><a class="nav-link" data-pushbar-target="pushbar-carrito" href="#">Carrito</a></li>
 
                         </ul>
@@ -47,7 +57,7 @@
         <!-- Masthead-->
         <header class="masthead">
             <div class="container">
-                <div class="masthead-subheading">Welcome!</div>
+                <div class="masthead-subheading">Bienvenido!</div>
                 <div class="masthead-heading text-uppercase">¿Qué quieres comprar?</div>
             </div>
         </header>
@@ -395,20 +405,21 @@
                                 <h1 class="section-heading text-uppercase">Mi cuenta</h1>
                             </div>
                             
-                            <form id="member-registration" class="form-validate form-horizontal well" enctype="multipart/form-data">
+                            <form id="member-login" name="login" class="form-validate form-horizontal well" enctype="multipart/form-data">
                                 <fieldset>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Correo electrónico *</label>
-                                        <input type="email" class="form-control" id="email-id" placeholder="ejemplo@gmail.com">
+                                        <label for="exampleInputEmail1">Nombre de usuario</label>
+                                        <input type="text" class="form-control" name="username-login" id="email-id" placeholder="nombre de usuario">
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Contraseña *</label>
-                                        <input type="password" class="form-control" id="password-id" placeholder="********">
+                                        <label for="exampleInputPassword1">Contraseña</label>
+                                        <input type="password" class="form-control" name="password-login" id="password-id" placeholder="********">
                                     </div>
                                     <br/>
+                                    <center><p id="login-error-message" style="color: crimson; display: none;">Hubo un error. Verifique su nombre de usuario y contraseña.</p></center>
                                     <div class="d-flex justify-content-end align-items-center">
                                         <div class="form-group d-flex justify-content-start">
-                                            <button onclick="loginUser()" class="btn btn-primary">Login</button>
+                                            <button type="submit" class="btn btn-primary">Login</button>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -437,6 +448,7 @@
         <!-- Core theme JS-->
         <script src="static/js/scripts.js"></script>
         <script src="static/js/api.js"></script>
+        <script src="static/js/auth.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/pushbar.js@1.0.0/src/pushbar.min.js"></script>
@@ -445,21 +457,6 @@
                   blur:true,
                   overlay:true,
                 });
-        </script>
-        <script>
-            function loginUser() {
-
-                if (document.getElementById('email-id').value != '')
-                var email = document.getElementById('email-id').value;
-                if (document.getElementById('password-id').value != '')
-                var password = document.getElementById('password-id').value;
-                if (email == 'la.ancapi@duocuc.cl' && password == '123123')
-                {
-                    return alert("Usuario Logueado")
-                } else {
-                    return alert("Datos ingresados no son correctos.")
-                }
-            }
         </script>
     </body>
 </html>

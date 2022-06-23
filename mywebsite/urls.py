@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.http import JsonResponse
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 from django.conf.urls.static import static
 from django.conf import settings
+
+from django.contrib.auth import authenticate, login, logout
 
 from productos.models import Producto, Categoria, Mascota
 
@@ -53,12 +55,33 @@ def index(request):
         tienda[mascota.nombre] = dict(descripcion = mascota.descripcion, categorias=dic_categorias)
 
     context = dict(tienda = tienda)
-    print(tienda)
+    #print(tienda)
 
     return render(request, '../templates/index.html', context)
 
+def login_view(request):
+
+    username = request.POST['username']
+    password = request.POST['password']
+
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        print('LOGGEADO')
+        return HttpResponse('Ingreso correcto', status=200)
+    else:
+        print('HUBO UN ERROR')
+        return HttpResponse('Ingreso fallido', status=400)
+
+def logout_view(request):
+    logout(request)
+    
+    return HttpResponse('Ingreso correcto', status=200)
+
 urlpatterns = [
     path('', index),
+    path('ingresar/', login_view),
+    path('salir/', logout_view),
     path('admin/', admin.site.urls), 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
