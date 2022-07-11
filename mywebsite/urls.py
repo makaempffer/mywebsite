@@ -27,6 +27,9 @@ from productos.models import Producto, Categoria, Mascota
 
 import ulid
 
+from rest_framework import routers
+from ofertas.views import OfertaViewSet
+
 
 def index(request):
 
@@ -78,11 +81,16 @@ def logout_view(request):
     
     return HttpResponse('Ingreso correcto', status=200)
 
+router = routers.DefaultRouter()
+router.register(r'ofertas', OfertaViewSet)
+
 urlpatterns = [
     path('', index),
     path('ingresar/', login_view),
     path('salir/', logout_view),
-    path('admin/', admin.site.urls), 
+    path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

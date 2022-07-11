@@ -1,27 +1,18 @@
-/*const url = 'https://fakestoreapi.com/products';
+const url = 'http://127.0.0.1:8000/api/ofertas';
 $(document).ready(
     function() 
     {
         $.get(url, 
-            function(jsonObj)
+            function(data)
             {
-                
-                const data = jsonObj;
-                var arrLen = data.length;
-                console.log(data);
-                for (var i = 0; i < 6; i++)
-                {
-                    fillProduct(data, 'comida-' + (i + 1).toString(), i);
+                console.log(data, data.length);
+                if (data.length > 0) {
+                    data.forEach( (v, i, a) => {
+                        $('#tabla-ofertas > tbody:last-child').append(`<tr><td>${v.nombre}</td><td>${v.descripcion}</td><td>${v.vigente ? 'Vigente' : 'Caducada'}</td></tr>`)
+                    });
+                } else {
+                    $('#tabla-ofertas > tbody:last-child').append(`<tr><td>-</td><td>SIN INFORMACIÓN</td><td>-</td></tr>`);
                 }
             })
     }
 )
-
-function fillProduct(data, id, index)
-{
-    var productInfo = data[index];
-    document.getElementById(id).innerHTML = productInfo['title'];
-    document.getElementById(id + '-desc').innerHTML = productInfo['description'];
-    document.getElementById(id + '-price').innerHTML += productInfo['price'];
-    document.getElementById(id + '-image').src = productInfo['image'];
-}*/
